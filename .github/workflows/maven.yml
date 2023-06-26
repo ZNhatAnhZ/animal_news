@@ -34,7 +34,7 @@ jobs:
     needs: build
     steps:
       - name: pushing to docker hub
-        run: docker compose push
+        run: docker-compose push
   
   deploy:
     needs: push_to_dockerhub
