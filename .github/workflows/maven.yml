@@ -28,8 +28,16 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file ./animal_news_backend/pom.xml
-  deploy:
+  
+  push_to_dockerhub:
+    runs-on: ubuntu-latest
     needs: build
+    steps:
+      - name: pushing to docker hub
+        run: docker compose push
+  
+  deploy:
+    needs: push_to_dockerhub
     runs-on: ubuntu-latest
     steps:
         - name: Deploy using ssh
@@ -42,4 +50,5 @@ jobs:
             script: |
               cd animal_news
               git pull origin main
+              docker compose pull
               docker compose up --build -d
