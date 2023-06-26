@@ -10,7 +10,6 @@ import { useParams, useLoaderData } from 'react-router-dom';
 
 export function NewsDetail() {
     const newsDetail = useLoaderData();
-    console.log(newsDetail);
 
     return (
         <>
