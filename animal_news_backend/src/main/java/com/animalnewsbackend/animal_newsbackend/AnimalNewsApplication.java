@@ -1,4 +1,4 @@
-package com.animalnews.animal_news;
+package com.animalnewsbackend.animal_newsbackend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

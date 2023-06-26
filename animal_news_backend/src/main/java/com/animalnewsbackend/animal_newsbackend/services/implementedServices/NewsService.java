@@ -1,8 +1,8 @@
-package com.animalnews.animal_news.services.implementedServices;
+package com.animalnewsbackend.animal_newsbackend.services.implementedServices;
 
-import com.animalnews.animal_news.entities.News;
-import com.animalnews.animal_news.repositories.NewsRepository;
-import com.animalnews.animal_news.services.abstractServices.NewsInterface;
+import com.animalnewsbackend.animal_newsbackend.entities.News;
+import com.animalnewsbackend.animal_newsbackend.repositories.NewsRepository;
+import com.animalnewsbackend.animal_newsbackend.services.abstractServices.NewsInterface;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

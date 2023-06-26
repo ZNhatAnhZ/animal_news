@@ -1,6 +1,6 @@
-package com.animalnews.animal_news.services.abstractServices;
+package com.animalnewsbackend.animal_newsbackend.services.abstractServices;
 
-import com.animalnews.animal_news.entities.News;
+import com.animalnewsbackend.animal_newsbackend.entities.News;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

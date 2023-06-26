@@ -1,4 +1,4 @@
-package com.animalnews.animal_news.configs;
+package com.animalnewsbackend.animal_newsbackend.configs;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

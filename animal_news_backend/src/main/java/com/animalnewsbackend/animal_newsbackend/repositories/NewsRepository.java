@@ -1,6 +1,6 @@
-package com.animalnews.animal_news.repositories;
+package com.animalnewsbackend.animal_newsbackend.repositories;
 
-import com.animalnews.animal_news.entities.News;
+import com.animalnewsbackend.animal_newsbackend.entities.News;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 

@@ -1,4 +1,4 @@
-package com.animalnews.animal_news.entities;
+package com.animalnewsbackend.animal_newsbackend.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

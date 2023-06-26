@@ -1,4 +1,4 @@
-package com.animalnews.animal_news;
+package com.animalnewsbackend.animal_newsbackend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
