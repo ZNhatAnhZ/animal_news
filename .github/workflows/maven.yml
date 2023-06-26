@@ -1,0 +1,45 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 20
+      uses: oracle-actions/setup-java@v1
+      with:
+        website: oracle.com
+        release: 20
+        version: 20.0.1
+        cache: maven
+    - name: Build with Maven
+      run: mvn -B package --file ./animal_news_backend/pom.xml
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+        - name: Deploy using ssh
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.USERNAME }}
+            password: ${{ secrets.PRIVATE_KEY }}
+            port: 22
+            script: |
+              cd animal_news
+              git pull origin main
+              docker compose up --build -d
