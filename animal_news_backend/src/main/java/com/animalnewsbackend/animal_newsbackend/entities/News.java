@@ -1,23 +1,37 @@
 package com.animalnewsbackend.animal_newsbackend.entities;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
+import io.hypersistence.utils.hibernate.type.json.JsonType;
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.Type;
+import org.springframework.data.annotation.CreatedDate;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Document("news")
-@Data
+@Entity(name = "news")
+@Getter
+@Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class News {
+
     @Id
-    private String id;
+    @GeneratedValue
+    private int id;
+
     private String title;
+
     private String date;
-    private List<String> images;
+
+    @Type(JsonType.class)
+    @Column(columnDefinition = "json")
+    private List<String> images = new ArrayList<>();
+
     private String content;
-    private Long created_on;
+
+    @CreatedDate
+    private Long createdOn;
+
 }
