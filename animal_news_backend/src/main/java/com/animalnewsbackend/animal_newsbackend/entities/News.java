@@ -2,12 +2,11 @@ package com.animalnewsbackend.animal_newsbackend.entities;
 
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.*;
 import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity(name = "news")
 @Getter
@@ -17,21 +16,17 @@ import java.util.List;
 @AllArgsConstructor
 public class News {
 
-    @Id
-    @GeneratedValue
-    private int id;
+  @Id @GeneratedValue private int id;
 
-    private String title;
+  private String title;
 
-    private String date;
+  private String date;
 
-    @Type(JsonType.class)
-    @Column(columnDefinition = "json")
-    private List<String> images = new ArrayList<>();
+  @Type(JsonType.class)
+  @Column(columnDefinition = "json")
+  private List<String> images = new ArrayList<>();
 
-    private String content;
+  private String content;
 
-    @CreatedDate
-    private Long createdOn;
-
+  @CreatedDate private Long createdOn;
 }

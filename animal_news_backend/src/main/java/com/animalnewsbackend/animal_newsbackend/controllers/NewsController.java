@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class NewsController {
 
-    private final NewsService newsService;
+  private final NewsService newsService;
 
-    @GetMapping("/index")
-    public ResponseEntity<Page<News>> index(@RequestParam(defaultValue = "0") int page,
-                                            @RequestParam(defaultValue = "15") int size) {
-        return ResponseEntity.ok(newsService.getAllPartialNews(page, size));
-    }
+  @GetMapping("/index")
+  public ResponseEntity<Page<News>> index(
+      @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "15") int size) {
+    return ResponseEntity.ok(newsService.getAllPartialNews(page, size));
+  }
 
-    @GetMapping("/detail")
-    public ResponseEntity<News> detail(@RequestParam String id) {
-        return ResponseEntity.ok(newsService.getNewsDetail(id));
-    }
+  @GetMapping("/detail")
+  public ResponseEntity<News> detail(@RequestParam String id) {
+    return ResponseEntity.ok(newsService.getNewsDetail(id));
+  }
 }
