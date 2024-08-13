@@ -1,4 +1,4 @@
-package com.animalnewsbackend.animal_newsbackend;
+package com.animalnewsbackend.animal_newsbackend.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

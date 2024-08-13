@@ -1,6 +1,6 @@
 package com.animalnewsbackend.animal_newsbackend.services;
 
-import com.animalnewsbackend.animal_newsbackend.ResourceNotFoundException;
+import com.animalnewsbackend.animal_newsbackend.exception.ResourceNotFoundException;
 import com.animalnewsbackend.animal_newsbackend.entities.News;
 import com.animalnewsbackend.animal_newsbackend.repositories.NewsRepository;
 import lombok.RequiredArgsConstructor;
