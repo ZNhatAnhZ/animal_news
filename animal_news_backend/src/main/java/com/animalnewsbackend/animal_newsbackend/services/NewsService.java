@@ -19,7 +19,7 @@ public class NewsService {
 
     public Page<News> getAllPartialNews(int page, int size) {
         Page<News> pageList = newsRepository
-                .findAll(PageRequest.of(page, size, Sort.by("created_on").descending()));
+                .findAll(PageRequest.of(page, size, Sort.by("createdOn").descending()));
 
         return pageList.map(e -> {
             e.setImages(List.of(e.getImages().getFirst()));
