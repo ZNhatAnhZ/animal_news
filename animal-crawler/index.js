@@ -53,7 +53,7 @@ console.log('Object argument: ', objArg);
 
                     let currentPage = 1;
                     let maxPage = 1; //default, will be updated later
-                    let arrayOfImages = [image];
+                    let arrayOfImages = [`${newsId}.jpg`];
                     let content = '';
 
                     try {
@@ -62,7 +62,7 @@ console.log('Object argument: ', objArg);
                             const detailImage = await detailPostPage.$eval('div.page>img', el => el.src);
                             const text = (await detailPostPage.$eval('div.text', el => el.innerText)).replaceAll("\n", "").trim();
                             content += text + " ";
-                            arrayOfImages.push(detailImage);
+                            arrayOfImages.push(`${newsId}-${currentPage}.jpg`);
                             link = await detailPostPage.$eval('div.right>span>a', el => el.href);
                             maxPage = parseInt(await detailPostPage.$eval('span.count-pageindex', el => el.innerText), 10);
                             await downloadFile(imagePage, detailImage, `${newsId}-${currentPage}.jpg`);
