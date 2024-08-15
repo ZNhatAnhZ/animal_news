@@ -15,5 +15,5 @@ crawler:
     user: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD:root}
     database: ${MYSQL_DB:animal_news}
-  script-directory: ../../../WebstormProjects/animal-crawler
-  pushing-to-git-script-directory: ../../../WebstormProjects/animal-crawler/public
+  script-directory: ./animal-crawler
+  pushing-to-git-script-directory: ./animal-crawler/public
