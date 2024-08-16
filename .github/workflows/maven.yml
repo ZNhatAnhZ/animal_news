@@ -17,14 +17,20 @@ on:
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
+    env:
+      MYSQL_HOST: $MYSQL_HOST
+      MYSQL_PORT: $MYSQL_PORT
+      MYSQL_DB: $MYSQL_DB
+      MYSQL_USERNAME: $MYSQL_USERNAME
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      
     steps:
     - uses: actions/checkout@v3
-    - name: Set up JDK 20
+    - name: Set up JDK 22
       uses: oracle-actions/setup-java@v1
       with:
         website: oracle.com
-        release: 20
-        version: 20.0.1
+        release: 22
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file ./animal_news_backend/pom.xml
