@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Java CI with Maven
+name: CI/CD Pipeline for animal_news
 
 on:
   push:
@@ -18,15 +18,15 @@ jobs:
   build_and_push:
     runs-on: ubuntu-latest
     env:
-      MYSQL_HOST: $MYSQL_HOST
-      MYSQL_PORT: $MYSQL_PORT
-      MYSQL_DB: $MYSQL_DB
-      MYSQL_USERNAME: $MYSQL_USERNAME
-      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
+      MYSQL_PORT: ${{ secrets.MYSQL_PORT }}
+      MYSQL_DB: ${{ secrets.MYSQL_DB }}
+      MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
       
     steps:
     - uses: actions/checkout@v3
-    - name: Set up JDK 22
+    - name: Set up JDK 21
       uses: oracle-actions/setup-java@v1
       with:
         website: oracle.com
@@ -52,11 +52,12 @@ jobs:
         - name: Deploy to VPS using SSH
           uses: appleboy/ssh-action@master
           with:
-            host: ${{ secrets.HOST }}
-            username: ${{ secrets.USERNAME }}
-            password: ${{ secrets.PRIVATE_KEY }}
-            port: 22
+            host: ${{ secrets.SSH_HOST }}
+            username: ${{ secrets.SSH_USERNAME }}
+            password: ${{ secrets.SSH_PASSWORD }}
+            port: ${{ secrets.SSH_PORT }}
             script: |
+              test -d animal_news && clone https://github.com/ZNhatAnhZ/animal_news.git
               cd animal_news
               git pull origin main
               docker compose pull && docker compose up -d
