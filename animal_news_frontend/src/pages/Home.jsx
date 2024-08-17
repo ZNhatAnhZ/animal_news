@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import ResponsiveAppBar from '../components/ResponsiveAppBar';
 import NewsContent from '../components/NewsContent';
 import NewsTitle from '../components/NewsTitle';
 import NewsService from '../services/NewsService';
 import Footer from '../components/Footer';
-import { useLoaderData } from 'react-router-dom';
+import {useLoaderData} from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
-import { Grid } from '@mui/material';
+import {Grid} from '@mui/material';
 
 export function Home() {
     const temp = useLoaderData();
@@ -40,6 +40,5 @@ export function Home() {
 }
 
 export async function loader() {
-    const data = await NewsService.getAllPartialNews(0, 10);
-    return data;
+    return await NewsService.getAllPartialNews(0, 10);
 }

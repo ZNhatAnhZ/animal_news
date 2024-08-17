@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import ResponsiveAppBar from '../components/ResponsiveAppBar';
 import TitleInsideImage from '../components/TitleInsideImage';
 import DateAndShare from '../components/DateAndShare';

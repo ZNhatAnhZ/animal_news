@@ -1,9 +1,8 @@
-
 async function getAllPartialNews(page, size) {
     try {
-        const response = await fetch(`/api/news/index?page=${page}&size=${size}`);
-        const jsondata = await response.json();
-        return jsondata;
+        const response = await fetch(`http://localhost:8080/news/index?page=${page}&size=${size}`);
+        console.log("asdasd")
+        return await response.json();
     } catch (error) {
         console.log("Get all news error: ", error);
     }
@@ -11,9 +10,8 @@ async function getAllPartialNews(page, size) {
 
 async function getDetailNews(id) {
     try {
-        const response = await fetch(`/api/news/detail?id=${id}`);
-        const jsondata = await response.json();
-        return jsondata;
+        const response = await fetch(`http://localhost:8080/news/detail?id=${id}`);
+        return await response.json();
     } catch (error) {
         console.log("Get news detail error: ", error);
     }

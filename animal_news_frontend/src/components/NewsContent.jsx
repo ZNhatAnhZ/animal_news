@@ -1,6 +1,4 @@
-import { useState } from 'react';
-import ResponsiveAppBar from '../components/ResponsiveAppBar';
-import { Grid, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import NewsItem from './NewsItem';
 
 function NewsContent(props) {
