@@ -2,20 +2,21 @@ const puppeteer = require('puppeteer');
 const {
     initializeConnectionPool,
     insertPost,
+    selectPost,
     closingConnectionPool
 } = require("./databaseManangement");
 const { downloadFile } = require("./downloadImage");
 const {delay} = require("./util");
 
-const objArgStr = process.argv[2];
+let objArgStr = process.argv[2];
 
 if (!objArgStr) {
-    console.error('No argument provided.');
-    process.exit(1);
+    console.log('No object argument found, defaulting to {}.');
+    objArgStr = '{}';
 }
 
-const objArg = JSON.parse(objArgStr);
-console.log('Object argument: ', objArg);
+const objArgObj = JSON.parse(objArgStr);
+console.log('Object argument: ', objArgObj);
 
 (async () => {
     console.log("Starting puppeteer...");
@@ -24,11 +25,14 @@ console.log('Object argument: ', objArg);
     const detailPostPage = await browser.newPage();
     const imagePage = await browser.newPage();
     let index = 1;
-    const maxIndex = 60;
-    initializeConnectionPool(objArgStr);
+    // default maxIndex is 60
+    const maxIndex = objArgObj.maxIndex ? objArgObj.maxIndex : 60;
+    console.log('maxIndex is: "%s".', maxIndex);
+    initializeConnectionPool(objArgObj);
 
     while(index <= maxIndex) {
-        const targetUrl = `http://www.onegreatlifestyle.com/index.html?cate_id=5170&page=${index}`;
+        const defaultTargetUrl = 'http://www.onegreatlifestyle.com/index.html?cate_id=5170'
+        const targetUrl = `${objArgObj.targetUrl ? objArgObj.targetUrl : defaultTargetUrl}&page=${index}`;
 
         console.log('Requesting the target url: "%s".', targetUrl);
         try {
@@ -48,12 +52,19 @@ console.log('Object argument: ', objArg);
                     const category = await post.$eval('div>span.category', el => el.innerText);
                     const time = await post.$eval('div>span.time', el => el.innerText);
                     const newsId = link.match(/news_id=(\d+)/)[1];
-                    await downloadFile(imagePage, image, `${newsId}.jpg`);
+                    const existingPost = await selectPost({id: newsId});
+
+                    if (existingPost[0].length > 0) {
+                        console.log('Post with id: "%s" already exists, skipping this post.', newsId);
+                        continue;
+                    }
+
+                    await downloadFile(imagePage, image, `${newsId}.jpg`, objArgObj.savingPath);
                     console.log('newsId: "%s", title: "%s", detailLink: "%s", image: "%s", category: "%s", time: "%s".', newsId, title, link, image, category, time);
 
                     let currentPage = 1;
                     let maxPage = 1; //default, will be updated later
-                    let arrayOfImages = [`${newsId}.jpg`];
+                    let arrayOfImages = [image];
                     let content = '';
 
                     try {
@@ -62,10 +73,10 @@ console.log('Object argument: ', objArg);
                             const detailImage = await detailPostPage.$eval('div.page>img', el => el.src);
                             const text = (await detailPostPage.$eval('div.text', el => el.innerText)).replaceAll("\n", "").trim();
                             content += text + " ";
-                            arrayOfImages.push(`${newsId}-${currentPage}.jpg`);
+                            arrayOfImages.push(detailImage);
                             link = await detailPostPage.$eval('div.right>span>a', el => el.href);
                             maxPage = parseInt(await detailPostPage.$eval('span.count-pageindex', el => el.innerText), 10);
-                            await downloadFile(imagePage, detailImage, `${newsId}-${currentPage}.jpg`);
+                            await downloadFile(imagePage, detailImage, `${newsId}-${currentPage}.jpg`, objArgObj.savingPath);
 
                             console.log('currentPage: "%s", maxPage: "%s", text: "%s", nextPageLink: "%s", detailImage: "%s".', currentPage, maxPage, text, link, detailImage);
                             await delay(3000); //delay 3 seconds to avoid spamming the server

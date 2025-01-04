@@ -24,6 +24,16 @@ function closingConnectionPool() {
     });
 }
 
+async function selectPost(post){
+    return pool.query('SELECT * FROM news where id = ?',
+        [post.id],
+        function (error, results, fields) {
+            if (error) {
+                console.log('Error when selecting the post with error: "%s".', error);
+            }
+        });
+}
+
 async function insertPost(post){
     return pool.query('INSERT INTO news (id, title, date, images, content) values (?, ?, ?, ?, ?)',
         [post.id, post.title, post.date, post.images, post.content],
@@ -37,5 +47,6 @@ async function insertPost(post){
 module.exports = {
     initializeConnectionPool,
     insertPost,
+    selectPost,
     closingConnectionPool
 };
