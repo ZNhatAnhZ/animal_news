@@ -29,7 +29,7 @@ function NewsItem(props) {
                                 height: '100%',
                                 objectFit: 'contain'
                             }}
-                            image={`/images/${props.data.images[0]}`}
+                            src={`${props.data.images[0]}`}
 
                         />
                     </Grid>

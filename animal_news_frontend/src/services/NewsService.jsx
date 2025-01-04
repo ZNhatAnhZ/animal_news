@@ -1,7 +1,8 @@
+import backendUrl from "../config/envVariable.jsx";
+
 async function getAllPartialNews(page, size) {
     try {
-        const response = await fetch(`http://localhost:8080/news/index?page=${page}&size=${size}`);
-        console.log("asdasd")
+        const response = await fetch(`${backendUrl}/news/index?page=${page}&size=${size}`);
         return await response.json();
     } catch (error) {
         console.log("Get all news error: ", error);
@@ -10,7 +11,7 @@ async function getAllPartialNews(page, size) {
 
 async function getDetailNews(id) {
     try {
-        const response = await fetch(`http://localhost:8080/news/detail?id=${id}`);
+        const response = await fetch(`${backendUrl}/news/${id}/detail`);
         return await response.json();
     } catch (error) {
         console.log("Get news detail error: ", error);

@@ -1,4 +1,11 @@
 FROM node:16-alpine AS build
+
+# Define build arguments for environment variables
+ARG BACKEND_URL
+
+# Set environment variables during the build process
+ENV BACKEND_URL=$BACKEND_URL
+
 WORKDIR /app
 COPY package.json .
 RUN npm install

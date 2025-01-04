@@ -17,8 +17,8 @@ function NewsDetailImages(props) {
                     justifyContent: 'center'
                 }}>
                     <img
-                        src={`/images/${item}`}
-                        srcSet={`/images/${item}`}
+                        src={`${item}`}
+                        srcSet={`${item}`}
                         loading="lazy"
                         className='contentImg'
                     />
