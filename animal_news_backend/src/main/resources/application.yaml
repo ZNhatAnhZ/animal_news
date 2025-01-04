@@ -21,3 +21,6 @@ crawler:
   script-directory: ${CRAWLER_SCRIPT_DIRECTORY:../animal-crawler/}
   pushing-to-git-script-directory: ${CRAWLER_PUSH_TO_GIT_DIRECTORY:../animal_images/}
   cron-expression: 0 0 0 * * *
+
+news:
+  image-url-prefix: ${NEWS_IMAGE_URL_PREFIX:http://localhost:8080/animal_images/}

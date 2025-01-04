@@ -20,8 +20,8 @@ public class NewsController {
     return ResponseEntity.ok(newsService.getAllPartialNews(page, size));
   }
 
-  @GetMapping("/detail")
-  public ResponseEntity<News> detail(@RequestParam String id) {
+  @GetMapping("/{id}/detail")
+  public ResponseEntity<News> detail(@PathVariable String id) {
     return ResponseEntity.ok(newsService.getNewsDetail(id));
   }
 }

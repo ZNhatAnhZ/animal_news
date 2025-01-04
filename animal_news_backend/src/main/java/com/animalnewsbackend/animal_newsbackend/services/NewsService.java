@@ -5,6 +5,7 @@ import com.animalnewsbackend.animal_newsbackend.exception.ResourceNotFoundExcept
 import com.animalnewsbackend.animal_newsbackend.repositories.NewsRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -15,6 +16,9 @@ import org.springframework.stereotype.Service;
 public class NewsService {
 
   private final NewsRepository newsRepository;
+
+  @Value("${news.image-url-prefix}")
+  private final String imageUrlPrefix;
 
   public Page<News> getAllPartialNews(int page, int size) {
     Page<News> pageList =
@@ -32,6 +36,11 @@ public class NewsService {
   public News getNewsDetail(String id) {
     return newsRepository
         .findById(id)
+        .map(
+            e -> {
+              e.setImages(e.getImages().stream().map(image -> imageUrlPrefix + image).toList());
+              return e;
+            })
         .orElseThrow(
             () ->
                 new ResourceNotFoundException(
