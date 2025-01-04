@@ -12,4 +12,5 @@ public class CrawlerConfig {
   private Map<String, String> args;
   private String scriptDirectory;
   private String pushingToGitScriptDirectory;
+  private String cronExpression;
 }

@@ -16,7 +16,7 @@ public class SchedulingConfig {
 
   private final CrawlerExternalService crawlerExternalService;
 
-  @Scheduled(cron = "0 0 0 * * ?")
+  @Scheduled(cron = "${crawler.cron-expression}")
   public void startCrawlerCronJob() {
     log.info("Running startCrawlerCronJob at {}", Instant.now());
     crawlerExternalService.startCrawler();
