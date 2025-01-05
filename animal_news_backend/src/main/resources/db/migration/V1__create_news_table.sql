@@ -5,6 +5,6 @@ CREATE TABLE news
     date       VARCHAR(255) NULL,
     images     JSON NULL,
     content    TEXT NULL,
-    created_on TIMESTAMP NULL,
+    created_on INT NULL,
     CONSTRAINT pk_news PRIMARY KEY (id)
 );
