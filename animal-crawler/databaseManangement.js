@@ -35,8 +35,8 @@ async function selectPost(post){
 }
 
 async function insertPost(post){
-    return pool.query('INSERT INTO news (id, title, date, images, content) values (?, ?, ?, ?, ?)',
-        [post.id, post.title, post.date, post.images, post.content],
+    return pool.query('INSERT INTO news (id, title, date, images, content, created_on) values (?, ?, ?, ?, ?, ?)',
+        [post.id, post.title, post.date, post.images, post.content, Math.floor(Date.now() / 1000)],
         function (error, results, fields) {
         if (error) {
             console.log('Error when inserting a new post with error: "%s".', error);

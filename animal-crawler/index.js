@@ -59,12 +59,13 @@ console.log('Object argument: ', objArgObj);
                         continue;
                     }
 
-                    await downloadFile(imagePage, image, `${newsId}.jpg`, objArgObj.savingPath);
+                    const imageName = `${newsId}.jpg`;
+                    await downloadFile(imagePage, image, imageName, objArgObj.savingPath);
                     console.log('newsId: "%s", title: "%s", detailLink: "%s", image: "%s", category: "%s", time: "%s".', newsId, title, link, image, category, time);
 
                     let currentPage = 1;
                     let maxPage = 1; //default, will be updated later
-                    let arrayOfImages = [image];
+                    let arrayOfImages = [imageName];
                     let content = '';
 
                     try {
@@ -73,10 +74,11 @@ console.log('Object argument: ', objArgObj);
                             const detailImage = await detailPostPage.$eval('div.page>img', el => el.src);
                             const text = (await detailPostPage.$eval('div.text', el => el.innerText)).replaceAll("\n", "").trim();
                             content += text + " ";
-                            arrayOfImages.push(detailImage);
+                            const detailImageName = `${newsId}-${currentPage}.jpg`;
+                            arrayOfImages.push(detailImageName);
                             link = await detailPostPage.$eval('div.right>span>a', el => el.href);
                             maxPage = parseInt(await detailPostPage.$eval('span.count-pageindex', el => el.innerText), 10);
-                            await downloadFile(imagePage, detailImage, `${newsId}-${currentPage}.jpg`, objArgObj.savingPath);
+                            await downloadFile(imagePage, detailImage, detailImageName, objArgObj.savingPath);
 
                             console.log('currentPage: "%s", maxPage: "%s", text: "%s", nextPageLink: "%s", detailImage: "%s".', currentPage, maxPage, text, link, detailImage);
                             await delay(3000); //delay 3 seconds to avoid spamming the server
