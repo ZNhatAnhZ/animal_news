@@ -1,3 +1,3 @@
-const backendUrl = import.meta.env.BACKEND_URL ? import.meta.env.BACKEND_URL : 'http://localhost:8080';
+const backendUrl = 'http://93.127.216.23:8080';
 
 export default backendUrl;
