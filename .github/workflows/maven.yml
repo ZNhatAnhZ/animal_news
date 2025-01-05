@@ -70,8 +70,11 @@ jobs:
               docker compose up -d
               cd animal_news_backend
               mvn -B package --file ./pom.xml
-              java -jar /animal_news-0.0.1-SNAPSHOT.jar &
+              java -jar target/animal_news-0.0.1-SNAPSHOT.jar &
               cd ..
               cd animal-crawler
               npm install
-              node index.js {"host":"$MYSQL_HOST","port":"$MYSQL_PORT","user":"$MYSQL_USERNAME","password":"$MYSQL_PASSWORD","database":"$MYSQL_DB","maxIndex":"5"} &
+              node index.js "{\"host\":\"$MYSQL_HOST\",\"port\":\"$MYSQL_PORT\",\"user\":\"$MYSQL_USERNAME\",\"password\":\"$MYSQL_PASSWORD\",\"database\":\"$MYSQL_DB\",\"maxIndex\":\"5\"}"
+              cd ..
+              cd animal_images
+              sh pushingToGit.sh
