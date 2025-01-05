@@ -17,33 +17,27 @@ on:
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
-    env:
-      MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
-      MYSQL_PORT: ${{ secrets.MYSQL_PORT }}
-      MYSQL_DB: ${{ secrets.MYSQL_DB }}
-      MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
-      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
       
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 21
-      uses: oracle-actions/setup-java@v1
-      with:
-        website: oracle.com
-        release: 21
-        version: latest
-        cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file ./animal_news_backend/pom.xml
-    - name: Build with Docker
-      run: docker compose build
-    - name: Login to Docker Hub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: Push to DockerHub
-      run: docker compose push
+    # steps:
+    # - uses: actions/checkout@v3
+    # - name: Set up JDK 21
+    #   uses: oracle-actions/setup-java@v1
+    #   with:
+    #     website: oracle.com
+    #     release: 21
+    #     version: latest
+    #     cache: maven
+    # - name: Build with Maven
+    #   run: mvn -B package --file ./animal_news_backend/pom.xml
+    # - name: Build with Docker
+    #   run: docker compose build
+    # - name: Login to Docker Hub
+    #   uses: docker/login-action@v2
+    #   with:
+    #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+    #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+    # - name: Push to DockerHub
+    #   run: docker compose push
   
   deploy:
     needs: build_and_push
@@ -51,13 +45,34 @@ jobs:
     steps:
         - name: Deploy to VPS using SSH
           uses: appleboy/ssh-action@master
+          env:
+            MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
+            MYSQL_PORT: ${{ secrets.MYSQL_PORT }}
+            MYSQL_DB: ${{ secrets.MYSQL_DB }}
+            MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+            MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+            NEWS_IMAGE_URL_PREFIX: ${{ secrets.NEWS_IMAGE_URL_PREFIX }}
           with:
             host: ${{ secrets.SSH_HOST }}
             username: ${{ secrets.SSH_USERNAME }}
             password: ${{ secrets.SSH_PASSWORD }}
             port: ${{ secrets.SSH_PORT }}
+            envs: MYSQL_HOST,MYSQL_PORT,MYSQL_DB,MYSQL_USERNAME,MYSQL_PASSWORD,NEWS_IMAGE_URL_PREFIX
             script: |
-              test -d animal_news && git clone https://github.com/ZNhatAnhZ/animal_news.git
+              export MYSQL_HOST=$MYSQL_HOST
+              export MYSQL_PORT=$MYSQL_PORT
+              export MYSQL_DB=$MYSQL_DB
+              export MYSQL_USERNAME=$MYSQL_USERNAME
+              export MYSQL_PASSWORD=$MYSQL_PASSWORD
+              export NEWS_IMAGE_URL_PREFIX=$NEWS_IMAGE_URL_PREFIX
+              test -d animal_news && git clone git@github.com:ZNhatAnhZ/animal_news.git
               cd animal_news
               git pull origin main
-              docker compose pull && docker compose up -d
+              docker compose up -d
+              cd animal_news_backend
+              mvn -B package --file ./pom.xml
+              java -jar /animal_news-0.0.1-SNAPSHOT.jar &
+              cd ..
+              cd animal-crawler
+              npm install
+              node index.js {"host":"$MYSQL_HOST","port":"$MYSQL_PORT","user":"$MYSQL_USERNAME","password":"$MYSQL_PASSWORD","database":"$MYSQL_DB","maxIndex":"5"} &
