@@ -20,7 +20,7 @@ console.log('Object argument: ', objArgObj);
 
 (async () => {
     console.log("Starting puppeteer...");
-    const browser = await puppeteer.launch({headless: true});
+    const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox']});
     const mainPage = await browser.newPage();
     const detailPostPage = await browser.newPage();
     const imagePage = await browser.newPage();
