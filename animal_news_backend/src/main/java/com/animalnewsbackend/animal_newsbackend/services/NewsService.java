@@ -29,6 +29,7 @@ public class NewsService {
           e.setImages(List.of(e.getImages().getFirst()));
           e.setCreatedOn(e.getCreatedOn());
           e.setContent(e.getContent().substring(0, 400));
+            convertImageUrlUsingThePrefix(e);
           return e;
         });
   }
@@ -38,12 +39,16 @@ public class NewsService {
         .findById(id)
         .map(
             e -> {
-              e.setImages(e.getImages().stream().map(image -> imageUrlPrefix + image).toList());
-              return e;
+                convertImageUrlUsingThePrefix(e);
+                return e;
             })
         .orElseThrow(
             () ->
                 new ResourceNotFoundException(
                     String.format("Can not find the news with id: %s", id)));
   }
+
+    private void convertImageUrlUsingThePrefix(News e) {
+        e.setImages(e.getImages().stream().map(image -> imageUrlPrefix + image).toList());
+    }
 }
