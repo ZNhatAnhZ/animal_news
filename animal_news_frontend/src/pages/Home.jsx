@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import ResponsiveAppBar from '../components/ResponsiveAppBar';
 import NewsContent from '../components/NewsContent';
 import NewsTitle from '../components/NewsTitle';
@@ -11,20 +11,15 @@ import {Grid} from '@mui/material';
 export function Home() {
     const temp = useLoaderData();
     const [page, setPage] = useState(1);
-    const [news, setNews] = useState([]);
-    const [count, setCount] = useState(temp.totalPages);
+    const [news, setNews] = useState(temp.content);
+    const [count, setCount] = useState(temp.page.totalPages);
 
     async function paginationHandler(event, value) {
         const data = await NewsService.getAllPartialNews(value, 10);
         setNews(data.content);
         setPage(value)
-        setCount(data.totalPages)
+        setCount(data.page.totalPages)
     }
-
-    useEffect(() => {
-        setNews(temp.content);
-        setCount(temp.totalPages);
-    }, [])
 
     return (
         <>

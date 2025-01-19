@@ -5,7 +5,7 @@ import NewsDetailContent from '../components/NewsDetailContent';
 import NewsDetailImages from '../components/NewsDetailImages';
 import Footer from '../components/Footer';
 import NewsService from '../services/NewsService';
-import { useParams, useLoaderData } from 'react-router-dom';
+import {useLoaderData} from 'react-router-dom';
 
 export function NewsDetail() {
     const newsDetail = useLoaderData();
@@ -23,6 +23,5 @@ export function NewsDetail() {
 }
 
 export async function loader({ request, params }) {
-    const newsDetail = await NewsService.getDetailNews(params.id);
-    return newsDetail;
+    return await NewsService.getDetailNews(params.id);
 }

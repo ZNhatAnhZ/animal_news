@@ -11,7 +11,7 @@ function TitleInsideImage(props) {
             marginTop: '0.5%',
             borderRadius: '0'
         }}>
-            <Typography variant="h4" fontWeight={300} textAlign={"left"} sx={{
+            <Typography variant="h4" fontSize="1.6em" textAlign="left" sx={{
                 position: "absolute", color: "white", background: "rgb(24 37 52 / 90%)", padding: "0.5% 1%",
                 bottom: "0",
                 left: "0",
@@ -25,8 +25,7 @@ function TitleInsideImage(props) {
                 sx={{
                     objectFit: 'fill'
                 }}
-                image={`/images/${props.data.images[0]}`}
-
+                image={`${props.data.images[0]}`}
             />
         </Card>
     )
