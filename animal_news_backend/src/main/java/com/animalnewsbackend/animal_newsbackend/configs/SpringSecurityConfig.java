@@ -36,7 +36,7 @@ public class SpringSecurityConfig {
     return http.csrf(AbstractHttpConfigurer::disable)
         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
         .authorizeHttpRequests(
-            auth -> auth.requestMatchers("/news/**").permitAll().anyRequest().authenticated())
+            auth -> auth.requestMatchers("/news/**", "/test/cronJob").permitAll().anyRequest().authenticated())
         .sessionManagement((sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)))
         .build();
   }
